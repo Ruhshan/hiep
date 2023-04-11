@@ -1,24 +1,19 @@
 package service
 
 import (
-	"fmt"
 	"github.com/Ruhshan/hiep/backend/iep"
+	. "github.com/Ruhshan/hiep/backend/models/types"
 )
 
-type sequenceAndPosition struct {
-	sequence string
-	position [2]int
 
-}
-
-func getSubsequences(seq string, window int) []sequenceAndPosition {
-	var subSequences []sequenceAndPosition
+func getSubsequences(seq string, window int) [] SequenceAndPosition {
+	var subSequences []SequenceAndPosition
 
 	for i := 0; i<len(seq)-window;i++{
 
-		var sAndP = sequenceAndPosition{
-			sequence: seq[i:i+window],
-			position: [2]int{i, i+window},
+		var sAndP = SequenceAndPosition{
+			Sequence: seq[i:i+window],
+			Position: [2]int{i, i+window},
 		}
 
 		subSequences = append(subSequences, sAndP)
@@ -29,17 +24,17 @@ func getSubsequences(seq string, window int) []sequenceAndPosition {
 
 }
 
-func CalculateMaxIep(seq string, minWindow int)  {
+func CalculateMaxIep(seq string, minWindow int)  MaxIepResult{
 
 	maxIep := 0.0
 
-	var subSequences []sequenceAndPosition
-	iepMap := map[float64][]sequenceAndPosition{}
+	var subSequences []SequenceAndPosition
+	iepMap := map[float64][]SequenceAndPosition{}
 
 
 	results := make(chan struct {
 		predictedIep float64
-		subsequence sequenceAndPosition
+		subsequence SequenceAndPosition
 	})
 
 
@@ -50,11 +45,11 @@ func CalculateMaxIep(seq string, minWindow int)  {
 	}
 
 	for _, subsequence := range subSequences {
-		go func(seq sequenceAndPosition) {
-			predictedIep := iep.PredictIsoelectricPoint(seq.sequence)
+		go func(seq SequenceAndPosition) {
+			predictedIep := iep.PredictIsoelectricPoint(seq.Sequence)
 			results <- struct {
 				predictedIep float64
-				subsequence sequenceAndPosition
+				subsequence SequenceAndPosition
 			}{predictedIep, seq}
 		}(subsequence)
 	}
@@ -70,11 +65,13 @@ func CalculateMaxIep(seq string, minWindow int)  {
 
 		iepMap[predictedIep] = append(iepMap[predictedIep], subsequence)
 	}
-	fmt.Println(maxIep)
-
-	fmt.Println(iepMap[maxIep])
 
 	close(results)
+
+	return MaxIepResult{
+		MaxIep: maxIep,
+		SequenceAndPositions: iepMap[maxIep],
+	}
 
 
 
