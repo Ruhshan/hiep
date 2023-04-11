@@ -9,7 +9,6 @@ import (
 
 
 func main() {
-
 	fastas,_ := biogo.ParseFasta("/Users/abir_admin/development/hiep/backend/sequences.txt")
 
 	for _, fasta := range fastas{

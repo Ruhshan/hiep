@@ -30,10 +30,17 @@ func getSubsequences(seq string, window int) []sequenceAndPosition {
 }
 
 func CalculateMaxIep(seq string, minWindow int)  {
-	iepMap := map[float64][]sequenceAndPosition{}
+
 	maxIep := 0.0
 
 	var subSequences []sequenceAndPosition
+	iepMap := map[float64][]sequenceAndPosition{}
+
+
+	results := make(chan struct {
+		predictedIep float64
+		subsequence sequenceAndPosition
+	})
 
 
 	for i := minWindow; i< len(seq); i++{
@@ -42,19 +49,32 @@ func CalculateMaxIep(seq string, minWindow int)  {
 		}
 	}
 
+	for _, subsequence := range subSequences {
+		go func(seq sequenceAndPosition) {
+			predictedIep := iep.PredictIsoelectricPoint(seq.sequence)
+			results <- struct {
+				predictedIep float64
+				subsequence sequenceAndPosition
+			}{predictedIep, seq}
+		}(subsequence)
+	}
 
-	for _, subsequence := range subSequences{
-		predictedIep := iep.PredictIsoelectricPoint(subsequence.sequence)
+	for i:=0;i< len(subSequences);i++ {
+		res := <-results
+		predictedIep := res.predictedIep
+		subsequence := res.subsequence
 
-		if predictedIep > maxIep{
+		if predictedIep > maxIep {
 			maxIep = predictedIep
 		}
 
-
 		iepMap[predictedIep] = append(iepMap[predictedIep], subsequence)
 	}
+	fmt.Println(maxIep)
 
 	fmt.Println(iepMap[maxIep])
+
+	close(results)
 
 
 
