@@ -3,7 +3,7 @@ package instanthiep
 import (
 	"github.com/Ruhshan/hiep/backend/models/requests"
 	"github.com/Ruhshan/hiep/backend/models/types"
-	"github.com/Ruhshan/hiep/backend/pkg/errors"
+	"github.com/Ruhshan/hiep/backend/pkg/errorMessages"
 	"github.com/Ruhshan/hiep/backend/pkg/fasta"
 	"github.com/Ruhshan/hiep/backend/pkg/service/hiepcalculator"
 	"regexp"
@@ -26,7 +26,7 @@ func parseFasta(seq string)(string, error)  {
 	}
 
 	if len(fastas)>1{
-		return "", errors.ErrContainsMoreThanOneFastaSequence
+		return "", errorMessages.ErrContainsMoreThanOneFastaSequence
 	}else{
 		return fastas[0].Sequence, nil
 	}
@@ -49,7 +49,7 @@ func sanitizeSequence(r requests.InstantHiepRequest) (string, error){
 	regex := regexp.MustCompile("^[ACDEFGHIKLMNPQRSTVWY]+$")
 
 	if regex.MatchString(seq) == false{
-		return "", errors.ErrCotainsInvalidCharacters
+		return "", errorMessages.ErrContainsInvalidCharacters
 	}
 
 

@@ -12,6 +12,7 @@ func NewRoutes() routes {
 	r := routes{
 		router: gin.Default(),
 	}
+	r.router.Use(ErrorHandler)
 
 	return r
 }
