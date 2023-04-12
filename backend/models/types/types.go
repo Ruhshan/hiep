@@ -7,6 +7,6 @@ type SequenceAndPosition struct {
 
 
 type MaxIepResult struct {
-	MaxIep float64
-	SequenceAndPositions []SequenceAndPosition
+	MaxIep float64 `json:"maxIep"`
+	SequenceAndPositions []SequenceAndPosition `json:"sequenceAndPositions"`
 }

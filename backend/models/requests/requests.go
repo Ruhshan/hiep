@@ -1,8 +1,8 @@
 package requests
 
 type InstantHiepRequest struct {
-	Sequence string
-	MinimumWindowSize int
+	Sequence string `json:"sequence"  binding:"required"`
+	MinimumWindowSize int `json:"minimumWindowSize"  binding:"required"`
 }
 
 
