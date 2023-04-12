@@ -1,19 +1,21 @@
-package service
+package instanthiep
 
 import (
 	"github.com/Ruhshan/hiep/backend/models/requests"
 	"github.com/Ruhshan/hiep/backend/models/types"
 	"github.com/Ruhshan/hiep/backend/pkg/errors"
 	"github.com/Ruhshan/hiep/backend/pkg/fasta"
+	"github.com/Ruhshan/hiep/backend/pkg/service/hiepcalculator"
 	"regexp"
 	"strings"
 )
 
-type InstantRequestProcessor interface {
-	Process(r requests.InstantHiepRequest) (*types.MaxIepResult, error)
+type HiepProcessor interface {
+	ProcessPayload(r requests.InstantHiepRequest) (*types.MaxIepResult, error)
 }
 
-type instantRequestProcessor struct {
+type instantHiepProcessor struct {
+	calculator hiepcalculator.SequenceHiepCalculator
 }
 
 func parseFasta(seq string)(string, error)  {
@@ -56,16 +58,18 @@ func sanitizeSequence(r requests.InstantHiepRequest) (string, error){
 
 }
 
-func (i instantRequestProcessor) Process(r requests.InstantHiepRequest) (*types.MaxIepResult, error) {
+func (i instantHiepProcessor) ProcessPayload(r requests.InstantHiepRequest) (*types.MaxIepResult, error) {
 	var seq, err = sanitizeSequence(r)
 
 	if err!=nil{
 		return nil, err
 	}
-	var res = CalculateMaxIep(seq, r.MinimumWindowSize)
+
+	var res = i.calculator.CalculateMaxIep(seq, r.MinimumWindowSize)
+
 	return &res, nil
 }
 
-func NewInstantRequestProcessor() InstantRequestProcessor {
-	return &instantRequestProcessor{}
+func GetInstantHiepProcessor(calculator hiepcalculator.SequenceHiepCalculator) HiepProcessor {
+	return &instantHiepProcessor{calculator}
 }

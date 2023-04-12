@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Ruhshan/hiep/backend/models/requests"
 	"github.com/Ruhshan/hiep/backend/pkg/service/hiepcalculator"
+	"github.com/Ruhshan/hiep/backend/pkg/service/instanthiep"
 )
 
 
@@ -20,9 +21,10 @@ MNTGGRLIAGSHNRNEFVLINADESARIRSVQELSGQTCQICGDEIELTVSSELFVACNECAFPVCRPCYEYERREGNQA
 
 	var sequenceHiepCalculator = hiepcalculator.GetConcurrentSequenceHiepCalculator()
 
-	var res = sequenceHiepCalculator.CalculateMaxIep(instantRequest.Sequence, instantRequest.MinimumWindowSize)
+	var instantHiepProcessor = instanthiep.GetInstantHiepProcessor(sequenceHiepCalculator)
 
-	fmt.Println(res)
+
+	fmt.Println(instantHiepProcessor.ProcessPayload(instantRequest))
 
 
 }
