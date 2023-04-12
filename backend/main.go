@@ -2,9 +2,8 @@ package main
 
 import (
 	"fmt"
-
 	"github.com/Ruhshan/hiep/backend/models/requests"
-	"github.com/Ruhshan/hiep/backend/service"
+	"github.com/Ruhshan/hiep/backend/pkg/service"
 )
 
 
@@ -23,7 +22,7 @@ MNTGGRLIAGSHNRNEFVLINADESARIRSVQELSGQTCQICGDEIELTVSSELFVACNECAFPVCRPCYEYERREGNQA
 
 	var res, err = s.Process(instantRequest)
 
-	if(err == nil){
+	if err == nil {
 		fmt.Println(*res)
 	}
 

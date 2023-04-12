@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/Ruhshan/hiep/backend/iep"
 	. "github.com/Ruhshan/hiep/backend/models/types"
+	"github.com/Ruhshan/hiep/backend/pkg/iep"
 )
 
 

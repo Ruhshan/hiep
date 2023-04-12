@@ -1,10 +1,10 @@
 package service
 
 import (
-	"github.com/Ruhshan/hiep/backend/errors"
-	"github.com/Ruhshan/hiep/backend/fasta"
 	"github.com/Ruhshan/hiep/backend/models/requests"
 	"github.com/Ruhshan/hiep/backend/models/types"
+	"github.com/Ruhshan/hiep/backend/pkg/errors"
+	"github.com/Ruhshan/hiep/backend/pkg/fasta"
 	"regexp"
 	"strings"
 )
