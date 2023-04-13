@@ -36,8 +36,9 @@ export function Analyzer() {
     }
 
     const performSearch = async () => {
-        const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:20 } as InstantHiepRequest
-        console.log(JSON.stringify(req))
+        setApiResult({} as ApiResult)
+        const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:50 } as InstantHiepRequest
+
         const res:ApiResult = await CalculateHiepService.instantHiep(req)
         setApiResult(res)
 

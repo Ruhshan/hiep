@@ -16,6 +16,13 @@ function HiepResult(props: Props) {
         }
 
     }
+    const styles = {
+        breakText: {
+            maxWidth: '15em',
+            whiteSpace: 'normal',
+            overflowWrap: 'break-word',
+        },
+    };
 
     return (
         <Container>
@@ -39,6 +46,7 @@ function HiepResult(props: Props) {
                                         <Tr>
                                             <Th>Sequence</Th>
                                             <Th>Region</Th>
+                                            <Th>Length</Th>
 
                                         </Tr>
 
@@ -46,8 +54,9 @@ function HiepResult(props: Props) {
                                     <Tbody>
                                         {apiResult.sequenceAndPositions.map((sequenceAndRegion, index) => (
                                             <Tr key={index}>
-                                                <Td>{sequenceAndRegion.sequence}</Td>
+                                                <Td style={ styles.breakText }>{sequenceAndRegion.sequence}</Td>
                                                 <Td>{formatPosition(sequenceAndRegion.position)}</Td>
+                                                <Td>{sequenceAndRegion.sequence.length}</Td>
                                             </Tr>
                                         ))}
                                     </Tbody>
