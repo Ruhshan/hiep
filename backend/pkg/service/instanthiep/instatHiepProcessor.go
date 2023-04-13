@@ -8,6 +8,7 @@ import (
 	"github.com/Ruhshan/hiep/backend/pkg/service/hiepcalculator"
 	"regexp"
 	"strings"
+	"unicode"
 )
 
 type HiepProcessor interface {
@@ -32,6 +33,17 @@ func parseFasta(seq string)(string, error)  {
 	}
 }
 
+func stripSpaces(str string) string {
+	return strings.Map(func(r rune) rune {
+		if unicode.IsSpace(r) {
+			// if the character is a space, drop it
+			return -1
+		}
+		// else keep it in the string
+		return r
+	}, str)
+}
+
 func sanitizeSequence(r requests.InstantHiepRequest) (string, error){
 	var seq = strings.TrimSpace(r.Sequence)
 
@@ -42,9 +54,11 @@ func sanitizeSequence(r requests.InstantHiepRequest) (string, error){
 			return "", err
 		}
 
-		seq = parsedSeq
+		seq = strings.ToUpper(parsedSeq)
 
 	}
+
+	seq = stripSpaces(seq)
 
 	regex := regexp.MustCompile("^[ACDEFGHIKLMNPQRSTVWY]+$")
 
