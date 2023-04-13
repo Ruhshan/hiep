@@ -1,8 +1,8 @@
 package types
 
 type SequenceAndPosition struct {
-	Sequence string
-	Position [2]int
+	Sequence string `json:"sequence"`
+	Position [2]int `json:"position"`
 }
 
 
