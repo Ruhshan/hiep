@@ -1,10 +1,10 @@
 interface SequenceAndRegion {
     sequence: string
-    region: string
+    position: Array<number>
 }
 
 export default interface ApiResult {
-    highestIep: number
+    maxIep: number
     results: Array<SequenceAndRegion>
 }
 

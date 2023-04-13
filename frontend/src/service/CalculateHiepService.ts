@@ -6,17 +6,17 @@ class CalculateHiepService {
             'results': [
                 {
                     'sequence': 'RFRRHRGSPR',
-                    'region': '86 - 96 aa'
+                    'position': [86, 96]
 
                 },
                 {
                     'sequence': 'SRKLPIRSSR',
-                    'region': '262 - 272 aa'
+                    'position': [262, 252]
 
                 },
                 {
                     'sequence': 'RKLPIRSSRI',
-                    'region': '263 - 273 aa'
+                    'position': [290, 370]
 
                 }
             ]

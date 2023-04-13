@@ -7,6 +7,16 @@ interface Props {
 
 function HiepResult(props: Props) {
     const apiResult: ApiResult = props.apiResult;
+
+    function formatPosition(position: Array<number>): string {
+        if(position.length == 2){
+            return `${position[0]} to ${position[1]} aa`
+        }else{
+            return ''
+        }
+
+    }
+
     return (
         <Container>
             {apiResult.results ? (<>
@@ -15,7 +25,7 @@ function HiepResult(props: Props) {
                                 <Table variant="simple">
                                     <Thead>
                                         <Th>Hieghest IEP</Th>
-                                        <Th>{apiResult.highestIep}</Th>
+                                        <Th>{apiResult.maxIep}</Th>
                                     </Thead>
                                 </Table>
                             </TableContainer>
@@ -33,7 +43,7 @@ function HiepResult(props: Props) {
                                         {apiResult.results.map((sequenceAndRegion, index) => (
                                             <Tr key={index}>
                                                 <Td>{sequenceAndRegion.sequence}</Td>
-                                                <Td>{sequenceAndRegion.region}</Td>
+                                                <Td>{formatPosition(sequenceAndRegion.position)}</Td>
                                             </Tr>
                                         ))}
                                     </Tbody>
