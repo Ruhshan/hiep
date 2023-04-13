@@ -5,6 +5,6 @@ interface SequenceAndRegion {
 
 export default interface ApiResult {
     maxIep: number
-    results: Array<SequenceAndRegion>
+    sequenceAndPositions: Array<SequenceAndRegion>
 }
 

@@ -9,23 +9,25 @@ function HiepResult(props: Props) {
     const apiResult: ApiResult = props.apiResult;
 
     function formatPosition(position: Array<number>): string {
-        if(position.length == 2){
-            return `${position[0]} to ${position[1]} aa`
-        }else{
-            return ''
+        if (position.length == 2) {
+            return `${position[0]} to ${position[1]} aa`;
+        } else {
+            return '';
         }
 
     }
 
     return (
         <Container>
-            {apiResult.results ? (<>
-                        <Box border="1px" borderRadius="5" borderColor="blackAlpha.500" marginBottom='10px'>
+            {apiResult.sequenceAndPositions ? (<>
+                        <Box border="1px" borderRadius="5" borderColor="blackAlpha.500" marginBottom="10px">
                             <TableContainer>
                                 <Table variant="simple">
                                     <Thead>
-                                        <Th>Hieghest IEP</Th>
-                                        <Th>{apiResult.maxIep}</Th>
+                                        <Tr>
+                                            <Th>Hieghest IEP</Th>
+                                            <Th>{apiResult.maxIep}</Th>
+                                        </Tr>
                                     </Thead>
                                 </Table>
                             </TableContainer>
@@ -37,10 +39,12 @@ function HiepResult(props: Props) {
                                         <Tr>
                                             <Th>Sequence</Th>
                                             <Th>Region</Th>
+
                                         </Tr>
+
                                     </Thead>
                                     <Tbody>
-                                        {apiResult.results.map((sequenceAndRegion, index) => (
+                                        {apiResult.sequenceAndPositions.map((sequenceAndRegion, index) => (
                                             <Tr key={index}>
                                                 <Td>{sequenceAndRegion.sequence}</Td>
                                                 <Td>{formatPosition(sequenceAndRegion.position)}</Td>

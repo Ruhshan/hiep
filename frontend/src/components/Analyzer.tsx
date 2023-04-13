@@ -13,6 +13,7 @@ import CalculateHiepService from '../service/CalculateHiepService';
 import ApiResult from '../domains/ApiResult';
 import HiepResult from './HiepResult';
 import {InstantHiepRequest} from '../domains/ApiRequest';
+import axios, {AxiosResponse} from 'axios';
 
 export function Analyzer() {
     const [seq, setSeq] = React.useState('');
@@ -35,11 +36,11 @@ export function Analyzer() {
     }
 
     const performSearch = async () => {
-        const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:10 } as InstantHiepRequest
+        const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:20 } as InstantHiepRequest
         console.log(JSON.stringify(req))
-        const res:ApiResult = await CalculateHiepService.calculate(seq)
-
+        const res:ApiResult = await CalculateHiepService.instantHiep(req)
         setApiResult(res)
+
     }
 
     return (

@@ -1,29 +1,21 @@
 import ApiResult from '../domains/ApiResult';
+import {InstantHiepRequest} from '../domains/ApiRequest';
+import ApiClient from './ApiClient';
+
+
+const hiepPath = 'hiep'
 
 class CalculateHiepService {
-    public static async calculate(sequence: string): Promise<ApiResult> {
-        const result = {'highestIep':11.75,
-            'results': [
-                {
-                    'sequence': 'RFRRHRGSPR',
-                    'position': [86, 96]
 
-                },
-                {
-                    'sequence': 'SRKLPIRSSR',
-                    'position': [262, 252]
 
-                },
-                {
-                    'sequence': 'RKLPIRSSRI',
-                    'position': [290, 370]
-
-                }
-            ]
-        } as ApiResult
-
-        return new Promise<ApiResult>(resolve => resolve(result));
-
+    public static async instantHiep(request: InstantHiepRequest): Promise<ApiResult>{
+        try{
+            const res = await ApiClient.post(`${hiepPath}/instant/calculate`, request)
+            console.log('in service '+JSON.stringify(res.data))
+            return res.data
+        }catch (e){
+            throw new Error('Failed to fetch data')
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const API_URL = 'http://localhost:8989/v1/hiep'
+const API_URL = 'http://0.0.0.0:8989/api/v1/'
 
 const ApiClient = axios.create({
     baseURL: API_URL,
@@ -19,3 +19,5 @@ ApiClient.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+
+export default ApiClient
