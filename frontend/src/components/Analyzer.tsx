@@ -12,6 +12,7 @@ import React from 'react';
 import CalculateHiepService from '../service/CalculateHiepService';
 import ApiResult from '../domains/ApiResult';
 import HiepResult from './HiepResult';
+import {InstantHiepRequest} from '../domains/ApiRequest';
 
 export function Analyzer() {
     const [seq, setSeq] = React.useState('');
@@ -34,6 +35,8 @@ export function Analyzer() {
     }
 
     const performSearch = async () => {
+        const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:10 } as InstantHiepRequest
+        console.log(JSON.stringify(res))
         const res:ApiResult = await CalculateHiepService.calculate(seq)
 
         setApiResult(res)
@@ -48,7 +51,7 @@ export function Analyzer() {
 
 
                     {invalidInput ? (<FormErrorMessage>Invalid input</FormErrorMessage>) :
-                        (<FormHelperText>Currently we don&apos;t support FASTA</FormHelperText>)
+                        (<FormHelperText>Insert single raw sequence of fasta</FormHelperText>)
                     }
 
                 </FormControl>
