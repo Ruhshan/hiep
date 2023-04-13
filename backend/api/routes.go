@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/Ruhshan/hiep/backend/config"
 	"github.com/gin-gonic/gin"
 )
 
@@ -9,6 +10,7 @@ type routes struct {
 }
 
 func NewRoutes() routes {
+	gin.SetMode(config.Get("ginMode"))
 	r := routes{
 		router: gin.Default(),
 	}
@@ -23,6 +25,7 @@ func (r routes) GetBaseRoute(path string) *gin.RouterGroup{
 
 
 func (r routes) Run(addr ...string) error {
-	return r.router.Run()
+	port := config.Get("port")
+	return r.router.Run(":"+port)
 }
 
