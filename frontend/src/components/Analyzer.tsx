@@ -18,15 +18,11 @@ import axios, {AxiosResponse} from 'axios';
 export function Analyzer() {
     const [seq, setSeq] = React.useState('');
     const [invalidInput, setInvalidInput] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
     const [apiResult, setApiResult] = React.useState<ApiResult>({} as ApiResult);
 
     const handleInputChange = (e) => {
-        if (isSequenceValid(e.target.value)) {
-            setSeq(e.target.value)
-            setInvalidInput(false);
-        } else {
-            setInvalidInput(true);
-        }
+        setSeq(e.target.value)
     };
 
     function isSequenceValid(sequence: string): boolean {
@@ -37,10 +33,12 @@ export function Analyzer() {
 
     const performSearch = async () => {
         setApiResult({} as ApiResult)
+        setIsLoading(true)
         const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:50 } as InstantHiepRequest
 
         const res:ApiResult = await CalculateHiepService.instantHiep(req)
         setApiResult(res)
+        setIsLoading(false)
 
     }
 
@@ -59,7 +57,7 @@ export function Analyzer() {
                 </FormControl>
 
                 <div style={{'marginTop':'10px'}}>
-                    <Button colorScheme='teal' variant='outline' size='sm' onClick={performSearch} isDisabled={invalidInput}>
+                    <Button colorScheme='teal' variant='outline' size='sm' onClick={performSearch} isDisabled={invalidInput} isLoading={isLoading}>
                         Search
                     </Button>
                 </div>
