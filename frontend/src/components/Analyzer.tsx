@@ -20,8 +20,14 @@ export function Analyzer() {
     const [invalidInput, setInvalidInput] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
     const [apiResult, setApiResult] = React.useState<ApiResult>({} as ApiResult);
+    const [apiErrorMessage, setApiErrorMessage] = React.useState('')
+
 
     const handleInputChange = (e) => {
+        if(e.target.value.trim.length==0){
+            setInvalidInput(false)
+            setApiErrorMessage('')
+        }
         setSeq(e.target.value)
     };
 
@@ -35,9 +41,16 @@ export function Analyzer() {
         setApiResult({} as ApiResult)
         setIsLoading(true)
         const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:50 } as InstantHiepRequest
+        try{
+            const res:ApiResult = await CalculateHiepService.instantHiep(req)
+            setApiResult(res)
+        }catch (e) {
+            setInvalidInput(true)
+            setApiErrorMessage(e.response.data.error)
+            console.log('error has')
+            console.log(JSON.stringify(e.response.status))
+        }
 
-        const res:ApiResult = await CalculateHiepService.instantHiep(req)
-        setApiResult(res)
         setIsLoading(false)
 
     }
@@ -50,7 +63,7 @@ export function Analyzer() {
                     <Textarea onChange={handleInputChange}></Textarea>
 
 
-                    {invalidInput ? (<FormErrorMessage>Invalid input</FormErrorMessage>) :
+                    {invalidInput ? (<FormErrorMessage>{apiErrorMessage}</FormErrorMessage>) :
                         (<FormHelperText>Insert single raw sequence of fasta</FormHelperText>)
                     }
 
