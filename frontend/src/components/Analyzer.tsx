@@ -47,8 +47,7 @@ export function Analyzer() {
         }catch (e) {
             setInvalidInput(true)
             setApiErrorMessage(e.response.data.error)
-            console.log('error has')
-            console.log(JSON.stringify(e.response.status))
+            console.log(e.response)
         }
 
         setIsLoading(false)
