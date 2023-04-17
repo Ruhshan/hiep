@@ -6,13 +6,14 @@ import {
     FormLabel,
     FormHelperText,
     FormErrorMessage,
-    Button, Spacer
+    Button, Spacer, Center, Box
 } from '@chakra-ui/react';
 import React from 'react';
 import CalculateHiepService from '../service/CalculateHiepService';
 import ApiResult from '../domains/ApiResult';
 import HiepResult from './HiepResult';
 import {InstantHiepRequest} from '../domains/ApiRequest';
+import {ProteinFeatureViewer} from './ProteinFeatureViewer';
 
 
 export function Analyzer() {
@@ -40,7 +41,7 @@ export function Analyzer() {
     const performSearch = async () => {
         setApiResult({} as ApiResult)
         setIsLoading(true)
-        const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:50 } as InstantHiepRequest
+        const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:1 } as InstantHiepRequest
         try{
             const res:ApiResult = await CalculateHiepService.instantHiep(req)
             setApiResult(res)
@@ -63,7 +64,7 @@ export function Analyzer() {
 
 
                     {invalidInput ? (<FormErrorMessage>{apiErrorMessage}</FormErrorMessage>) :
-                        (<FormHelperText>Insert single raw sequence of fasta</FormHelperText>)
+                        (<FormHelperText>Insert one fasta sequence</FormHelperText>)
                     }
 
                 </FormControl>
@@ -77,6 +78,8 @@ export function Analyzer() {
             <Container>
                 <HiepResult apiResult={apiResult}></HiepResult>
             </Container>
+
+                <ProteinFeatureViewer apiResult={apiResult}></ProteinFeatureViewer>
 
         </VStack>
     );

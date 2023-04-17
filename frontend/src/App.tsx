@@ -8,7 +8,6 @@ const App: React.FC = () => {
     <div className="App">
       <NavHeader></NavHeader>
         <Analyzer></Analyzer>
-        <ProteinFeatureViewer></ProteinFeatureViewer>
     </div>
   )
 }
