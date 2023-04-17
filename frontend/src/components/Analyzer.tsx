@@ -13,7 +13,7 @@ import CalculateHiepService from '../service/CalculateHiepService';
 import ApiResult from '../domains/ApiResult';
 import HiepResult from './HiepResult';
 import {InstantHiepRequest} from '../domains/ApiRequest';
-import axios, {AxiosResponse} from 'axios';
+
 
 export function Analyzer() {
     const [seq, setSeq] = React.useState('');
@@ -77,6 +77,7 @@ export function Analyzer() {
             <Container>
                 <HiepResult apiResult={apiResult}></HiepResult>
             </Container>
+
         </VStack>
     );
 }

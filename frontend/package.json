@@ -14,10 +14,12 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "axios": "^0.21.1",
+    "feature-viewer-typescript": "^2.3.20",
     "framer-motion": "^10.6.0",
     "npm": "^8.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sass": "^1.62.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

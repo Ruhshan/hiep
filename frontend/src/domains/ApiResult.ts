@@ -4,6 +4,7 @@ interface SequenceAndRegion {
 }
 
 export default interface ApiResult {
+    querySequence: string
     maxIep: number
     sequenceAndPositions: Array<SequenceAndRegion>
 }
