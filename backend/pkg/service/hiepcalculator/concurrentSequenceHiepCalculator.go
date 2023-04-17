@@ -52,6 +52,7 @@ func (c concurrentSequenceHiepCalculator) CalculateMaxIep(seq string, minWindow 
 	close(results)
 
 	return MaxIepResult{
+		QuerySequence: seq,
 		MaxIep: maxIep,
 		SequenceAndPositions: iepMap[maxIep],
 	}
