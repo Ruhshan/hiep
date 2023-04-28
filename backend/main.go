@@ -1,18 +1,21 @@
 package main
 
 import (
-	"github.com/Ruhshan/hiep/backend/api"
+	"fmt"
 	"github.com/Ruhshan/hiep/backend/pkg/service/hiepcalculator"
-	"github.com/Ruhshan/hiep/backend/pkg/service/instanthiep"
 )
 
 func main() {
 	var calculator = hiepcalculator.GetConcurrentSequenceHiepCalculator()
-	var processor = instanthiep.GetInstantHiepProcessor(calculator)
+	var res = calculator.CalculateMaxIep("MEASAGLVAGSYRRNELVRIRHESDGGTKPLKNMNGQICQICGDDVGLAET",
+		1);
 
-	var r = api.NewRoutes()
-
-	api.ConfigureInstantHiepRoutes(r.GetBaseRoute("hiep/instant"), processor)
-
-	r.Run()
+	fmt.Println(res)
+	//var processor = instanthiep.GetInstantHiepProcessor(calculator)
+	//
+	//var r = api.NewRoutes()
+	//
+	//api.ConfigureInstantHiepRoutes(r.GetBaseRoute("hiep/instant"), processor)
+	//
+	//r.Run()
 }

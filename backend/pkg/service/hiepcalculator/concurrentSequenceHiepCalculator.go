@@ -9,8 +9,24 @@ type concurrentSequenceHiepCalculator struct {}
 
 
 func (c concurrentSequenceHiepCalculator) CalculateMaxIep(seq string, minWindow int) MaxIepResult  {
-	maxIep := 0.0
+	var maxIep = 0.0
+	var allIepData = getAllIepData(seq, minWindow)
 
+	for k,_ := range allIepData.IepSequenceMap{
+		if maxIep < k {
+			maxIep = k
+		}
+	}
+
+	return MaxIepResult{
+		QuerySequence: seq,
+		MaxIep: maxIep,
+		SequenceAndPositions: allIepData.IepSequenceMap[maxIep],
+	}
+
+}
+
+func getAllIepData(seq string, minWindow int)AllIepData  {
 	var subSequences []SequenceAndPosition
 	iepMap := map[float64][]SequenceAndPosition{}
 
@@ -42,22 +58,15 @@ func (c concurrentSequenceHiepCalculator) CalculateMaxIep(seq string, minWindow 
 		predictedIep := res.predictedIep
 		subsequence := res.subsequence
 
-		if predictedIep > maxIep {
-			maxIep = predictedIep
-		}
-
 		iepMap[predictedIep] = append(iepMap[predictedIep], subsequence)
 	}
 
 	close(results)
 
-	return MaxIepResult{
+	return AllIepData{
 		QuerySequence: seq,
-		MaxIep: maxIep,
-		SequenceAndPositions: iepMap[maxIep],
+		IepSequenceMap: iepMap,
 	}
-
-
 
 }
 
