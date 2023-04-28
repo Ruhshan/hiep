@@ -7,10 +7,11 @@ type SubSequenceData struct {
 }
 
 
-type MaxIepResult struct {
+type IepResult struct {
 	QuerySequence string `json:"querySequence"`
 	MaxIep float64                         `json:"maxIep"`
 	SequenceAndPositions []SubSequenceData `json:"sequenceAndPositions"`
+	FilteredSequenceAndPositions []SubSequenceData `json:"filteredSequenceAndPositions"`
 }
 
 type AllIepData struct {

@@ -12,7 +12,7 @@ import (
 )
 
 type HiepProcessor interface {
-	ProcessPayload(r requests.InstantHiepRequest) (*types.MaxIepResult, error)
+	ProcessPayload(r requests.InstantHiepRequest) (*types.IepResult, error)
 }
 
 type instantHiepProcessor struct {
@@ -72,14 +72,14 @@ func sanitizeSequence(r requests.InstantHiepRequest) (string, error){
 
 }
 
-func (i instantHiepProcessor) ProcessPayload(r requests.InstantHiepRequest) (*types.MaxIepResult, error) {
+func (i instantHiepProcessor) ProcessPayload(r requests.InstantHiepRequest) (*types.IepResult, error) {
 	var seq, err = sanitizeSequence(r)
 
 	if err!=nil{
 		return nil, err
 	}
 
-	var res = i.calculator.CalculateMaxIep(seq, r.MinimumWindowSize)
+	var res = i.calculator.CalculateIeps(seq, r.MinimumWindowSize, r.MinIepThreshold, r.MaxIepThreshold)
 
 	return &res, nil
 }
