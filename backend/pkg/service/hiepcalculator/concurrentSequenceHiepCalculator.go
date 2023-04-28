@@ -27,13 +27,13 @@ func (c concurrentSequenceHiepCalculator) CalculateMaxIep(seq string, minWindow 
 }
 
 func getAllIepData(seq string, minWindow int)AllIepData  {
-	var subSequences []SequenceAndPosition
-	iepMap := map[float64][]SequenceAndPosition{}
+	var subSequences []SubSequenceData
+	iepMap := map[float64][]SubSequenceData{}
 
 
 	results := make(chan struct {
 		predictedIep float64
-		subsequence SequenceAndPosition
+		subsequence  SubSequenceData
 	})
 
 
@@ -44,11 +44,11 @@ func getAllIepData(seq string, minWindow int)AllIepData  {
 	}
 
 	for _, subsequence := range subSequences {
-		go func(seq SequenceAndPosition) {
+		go func(seq SubSequenceData) {
 			predictedIep := iep.PredictIsoelectricPoint(seq.Sequence)
 			results <- struct {
 				predictedIep float64
-				subsequence SequenceAndPosition
+				subsequence  SubSequenceData
 			}{predictedIep, seq}
 		}(subsequence)
 	}
@@ -57,6 +57,7 @@ func getAllIepData(seq string, minWindow int)AllIepData  {
 		res := <-results
 		predictedIep := res.predictedIep
 		subsequence := res.subsequence
+		subsequence.Iep = predictedIep
 
 		iepMap[predictedIep] = append(iepMap[predictedIep], subsequence)
 	}
