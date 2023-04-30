@@ -6,6 +6,11 @@ type SubSequenceData struct {
 	Iep float64 `json:"iep"`
 }
 
+type IepData struct {
+	PredictedIep float64
+	Subsequence  SubSequenceData
+}
+
 
 type IepResult struct {
 	QuerySequence string `json:"querySequence"`
