@@ -6,7 +6,7 @@ type SubSequenceData struct {
 	Iep float64 `json:"iep"`
 }
 
-type IepData struct {
+type SubsequenceIep struct {
 	PredictedIep float64
 	Subsequence  SubSequenceData
 }
@@ -17,9 +17,4 @@ type IepResult struct {
 	MaxIep float64                         `json:"maxIep"`
 	SequenceAndPositions []SubSequenceData `json:"sequenceAndPositions"`
 	FilteredSequenceAndPositions []SubSequenceData `json:"filteredSequenceAndPositions"`
-}
-
-type AllIepData struct {
-	QuerySequence string `json:"querySequence"`
-	IepSequenceMap map[float64][]SubSequenceData
 }
