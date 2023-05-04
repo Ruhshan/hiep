@@ -5,11 +5,14 @@ import (
 	"github.com/Ruhshan/hiep/backend/models/types"
 	"github.com/Ruhshan/hiep/backend/pkg/errorMessages"
 	"github.com/Ruhshan/hiep/backend/pkg/fasta"
+	"github.com/Ruhshan/hiep/backend/pkg/iep"
 	"github.com/Ruhshan/hiep/backend/pkg/service/hiepcalculator"
 	"regexp"
 	"strings"
 	"unicode"
 )
+
+
 
 type HiepProcessor interface {
 	ProcessPayload(r requests.InstantHiepRequest) (*types.IepResult, error)
@@ -43,8 +46,20 @@ func stripSpaces(str string) string {
 		return r
 	}, str)
 }
+func validateScale(scale string) error  {
+	if iep.IsScaleValid(scale){
+		return nil
+	}
+	return errorMessages.ErrInvalidScale
+
+}
 
 func sanitizeSequence(r requests.InstantHiepRequest) (string, error){
+	err := validateScale(r.Scale)
+	if err!=nil{
+		return "", err
+	}
+
 	var seq = strings.TrimSpace(r.Sequence)
 
 	if seq[0]=='>'{
@@ -66,11 +81,12 @@ func sanitizeSequence(r requests.InstantHiepRequest) (string, error){
 		return "", errorMessages.ErrContainsInvalidCharacters
 	}
 
-
 	return seq,nil
 
 
 }
+
+
 
 func (i instantHiepProcessor) ProcessPayload(r requests.InstantHiepRequest) (*types.IepResult, error) {
 	var seq, err = sanitizeSequence(r)

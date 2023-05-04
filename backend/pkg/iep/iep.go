@@ -129,6 +129,12 @@ func PredictIsoelectricPoint(seq string, scaleOpt string) float64 {
 
 	}
 
-	
+}
+
+
+func IsScaleValid(scaleName string) bool{
+	_, ok := scales[scaleName]
+	return ok
+
 }
 

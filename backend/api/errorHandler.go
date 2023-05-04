@@ -74,6 +74,8 @@ func getMessageForError(e error)  ErrorResponse{
 		return ErrorResponse{"Input contains invalid character"}
 	case errorMessages.ErrContainsMoreThanOneFastaSequence:
 		return ErrorResponse{"Input contains more than one fasta"}
+	case errorMessages.ErrInvalidScale:
+		return ErrorResponse{"Scale is not valid"}
 	default:
 		return ErrorResponse{"Unknown Error"}
 	}
