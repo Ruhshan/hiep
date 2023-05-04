@@ -5,6 +5,7 @@ type InstantHiepRequest struct {
 	MinimumWindowSize int `json:"minimumWindowSize"  binding:"required"`
 	MinIepThreshold float64 `json:"minIepThreshold"`
 	MaxIepThreshold float64 `json:"maxIepThreshold"`
+	Scale string `json:"scale"`
 }
 
 

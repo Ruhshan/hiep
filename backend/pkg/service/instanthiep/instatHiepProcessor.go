@@ -79,7 +79,8 @@ func (i instantHiepProcessor) ProcessPayload(r requests.InstantHiepRequest) (*ty
 		return nil, err
 	}
 
-	var res = i.calculator.CalculateIeps(seq, r.MinimumWindowSize, r.MinIepThreshold, r.MaxIepThreshold)
+	var res = i.calculator.CalculateIeps(seq, r.MinimumWindowSize, r.MinIepThreshold, r.MaxIepThreshold,
+		r.Scale)
 
 	return &res, nil
 }

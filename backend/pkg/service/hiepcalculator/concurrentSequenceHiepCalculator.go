@@ -8,9 +8,10 @@ import (
 
 type concurrentSequenceHiepCalculator struct{}
 
-func (c concurrentSequenceHiepCalculator) CalculateIeps(seq string, minWindow int, minThreshold float64, maxThreshold float64) IepResult {
+func (c concurrentSequenceHiepCalculator) CalculateIeps(seq string, minWindow int, minThreshold float64,
+	maxThreshold float64, scale string) IepResult {
 	var maxIep = 0.0
-	var allSubsequenceIep = getAllIepData(seq, minWindow)
+	var allSubsequenceIep = getAllIepData(seq, minWindow, scale)
 	var filteredData []SubSequenceData
 
 	var minIepThreshold = math.Inf(-1)
@@ -50,7 +51,7 @@ func (c concurrentSequenceHiepCalculator) CalculateIeps(seq string, minWindow in
 
 }
 
-func getAllIepData(seq string, minWindow int) map[float64][]SubSequenceData {
+func getAllIepData(seq string, minWindow int, scale string) map[float64][]SubSequenceData {
 	var subSequences []SubSequenceData
 	iepMap := map[float64][]SubSequenceData{}
 
@@ -65,7 +66,7 @@ func getAllIepData(seq string, minWindow int) map[float64][]SubSequenceData {
 
 	for _, subsequence := range subSequences {
 		go func(seq SubSequenceData) {
-			predictedIep := iep.PredictIsoelectricPoint(seq.Sequence)
+			predictedIep := iep.PredictIsoelectricPoint(seq.Sequence, scale)
 			results <- SubsequenceIep{PredictedIep: predictedIep, Subsequence: seq}
 		}(subsequence)
 	}

@@ -62,11 +62,11 @@ func countChar(s string, c rune) float64 {
 	return float64(count)
 }
 
-func PredictIsoelectricPoint(seq string, scaleOpt ...string) float64 {
+func PredictIsoelectricPoint(seq string, scaleOpt string) float64 {
 	var scale = "IPC_protein"
 
-	if len(scaleOpt) > 0 {
-		scale = scaleOpt[0]
+	if _, ok := scales[scaleOpt]; ok {
+		scale = scaleOpt
 	}
 
 	var pKCterm = scales[scale]["Cterm"]
