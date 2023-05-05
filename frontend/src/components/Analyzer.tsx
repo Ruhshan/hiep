@@ -28,11 +28,14 @@ import {ProteinFeatureViewer} from './ProteinFeatureViewer';
 export function Analyzer() {
     const toast = useToast()
     const [seq, setSeq] = React.useState('')
+    const [scale, setScale] = React.useState('IPC_protein')
+    const [minIep, setMinIep] = React.useState<number>()
+    const [maxIep, setMaxIep] = React.useState<number>()
     const [invalidInput, setInvalidInput] = React.useState(false)
     const [isLoading, setIsLoading] = React.useState(false)
     const [apiResult, setApiResult] = React.useState<ApiResult>({} as ApiResult)
     const [apiErrorMessage, setApiErrorMessage] = React.useState('')
-    const [scale, setScale] = React.useState('IPC_protein')
+
     const scales:Array<string> =['EMBOSS','DTASelect','Solomon','Sillero','Rodwell','Patrickios','Wikipedia',
         'IPC_peptide','IPC_protein','Bjellqvist']
 
@@ -54,7 +57,8 @@ export function Analyzer() {
     const performSearch = async () => {
         setApiResult({} as ApiResult)
         setIsLoading(true)
-        const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:1, scale:scale } as InstantHiepRequest
+        const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:1, scale:scale ,
+            minIepThreshold: minIep, maxIepThreshold:maxIep} as InstantHiepRequest
         try{
             const res:ApiResult = await CalculateHiepService.instantHiep(req)
             setApiResult(res)
@@ -105,13 +109,13 @@ export function Analyzer() {
                     <FormControl style={{'marginTop':'10px'}}>
                         <FormLabel color={'gray.600'}>Enter Minimum Iep:</FormLabel>
                         <NumberInput>
-                            <NumberInputField />
+                            <NumberInputField onChange={(e)=>setMinIep(parseFloat(e.target.value))}/>
                         </NumberInput>
                     </FormControl>
                     <FormControl style={{'marginTop':'10px'}}>
                         <FormLabel color={'gray.600'}>Enter Maximum Iep:</FormLabel>
                         <NumberInput>
-                            <NumberInputField />
+                            <NumberInputField onChange={(e)=>setMaxIep(parseFloat(e.target.value))}/>
                         </NumberInput>
                     </FormControl>
 
