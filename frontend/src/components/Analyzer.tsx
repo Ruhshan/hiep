@@ -6,7 +6,16 @@ import {
     FormLabel,
     FormHelperText,
     FormErrorMessage,
-    Button, Spacer, Center, Box, Select
+    Button,
+    Spacer,
+    Center,
+    Box,
+    Select,
+    Input,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberDecrementStepper, NumberIncrementStepper, SimpleGrid, useBreakpointValue, useColorModeValue, Text, useToast
 } from '@chakra-ui/react';
 import React from 'react';
 import CalculateHiepService from '../service/CalculateHiepService';
@@ -17,11 +26,13 @@ import {ProteinFeatureViewer} from './ProteinFeatureViewer';
 
 
 export function Analyzer() {
+    const toast = useToast()
     const [seq, setSeq] = React.useState('')
     const [invalidInput, setInvalidInput] = React.useState(false)
     const [isLoading, setIsLoading] = React.useState(false)
     const [apiResult, setApiResult] = React.useState<ApiResult>({} as ApiResult)
     const [apiErrorMessage, setApiErrorMessage] = React.useState('')
+    const [scale, setScale] = React.useState('IPC_protein')
     const scales:Array<string> =['EMBOSS','DTASelect','Solomon','Sillero','Rodwell','Patrickios','Wikipedia',
         'IPC_peptide','IPC_protein','Bjellqvist']
 
@@ -43,7 +54,7 @@ export function Analyzer() {
     const performSearch = async () => {
         setApiResult({} as ApiResult)
         setIsLoading(true)
-        const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:1 } as InstantHiepRequest
+        const req: InstantHiepRequest = {sequence: seq, minimumWindowSize:1, scale:scale } as InstantHiepRequest
         try{
             const res:ApiResult = await CalculateHiepService.instantHiep(req)
             setApiResult(res)
@@ -51,6 +62,15 @@ export function Analyzer() {
             setInvalidInput(true)
             setApiErrorMessage(e.response.data.error)
             console.log(e.response)
+
+            toast({
+                title:'An error occurred',
+                description: e.response.data.error,
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+                position: 'top',
+            })
         }
 
         setIsLoading(false)
@@ -60,26 +80,42 @@ export function Analyzer() {
     return (
         <VStack>
             <Container color="black">
-                <FormControl isInvalid={invalidInput}>
-                    <FormLabel>Enter Protein Sequence:</FormLabel>
+                <FormControl isInvalid={invalidInput} isRequired>
+                    <FormLabel color={useColorModeValue('gray.600', 'white')}>
+
+                            Enter Protein Sequence:
+
+                    </FormLabel>
                     <Textarea onChange={handleInputChange}></Textarea>
-
-
-                    {invalidInput ? (<FormErrorMessage>{apiErrorMessage}</FormErrorMessage>) :
-                        (<FormHelperText>Insert one fasta sequence</FormHelperText>)
-                    }
+                    <FormHelperText>Insert one fasta sequence</FormHelperText>
 
                 </FormControl>
-                <FormControl>
-                    <FormLabel>Select Scale:</FormLabel>
-                    <Select placeholder='Select Scale'>
+                <FormControl isRequired>
+                    <FormLabel color={'gray.600'}>Select Scale:</FormLabel>
+                    <Select placeholder='Select Scale' onChange={(e)=>setScale(e.target.value)} value={scale}>
                         {
                             scales.map((scale, index)=>
-                                <option value={scale} key={index} selected={scale=='IPC_protein'}>{scale}</option>
+                                <option value={scale} key={index}>{scale}</option>
                             )
                         }
                     </Select>
                 </FormControl>
+
+                <SimpleGrid columns={2} spacing={5}>
+                    <FormControl style={{'marginTop':'10px'}}>
+                        <FormLabel color={'gray.600'}>Enter Minimum Iep:</FormLabel>
+                        <NumberInput>
+                            <NumberInputField />
+                        </NumberInput>
+                    </FormControl>
+                    <FormControl style={{'marginTop':'10px'}}>
+                        <FormLabel color={'gray.600'}>Enter Maximum Iep:</FormLabel>
+                        <NumberInput>
+                            <NumberInputField />
+                        </NumberInput>
+                    </FormControl>
+
+                </SimpleGrid>
                 <div style={{'marginTop':'10px'}}>
                     <Button colorScheme='teal' variant='outline' size='sm' onClick={performSearch} isDisabled={invalidInput} isLoading={isLoading}>
                         Search
