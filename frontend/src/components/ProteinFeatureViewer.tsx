@@ -1,7 +1,7 @@
 import {FeatureViewer} from 'feature-viewer-typescript/src/feature-viewer';
 import React, {useEffect, useState} from 'react';
 import ApiResult from '../domains/ApiResult';
-import {FeaturesList} from 'feature-viewer-typescript/src/interfaces';
+import {FeatureData, FeatureObject, FeaturesList} from 'feature-viewer-typescript/src/interfaces';
 import {Box, Center} from '@chakra-ui/react';
 
 interface Props {
@@ -47,21 +47,33 @@ export function ProteinFeatureViewer(props: Props) {
             data: [{x: 1+snp.position[0], y: snp.position[1]}]
         })) as FeaturesList;
 
+        if(apiResult.filteredSequenceAndPositions){
+
+            featurelist.push(
+                {
+                    type: 'rect',
+                    label: 'Between Threshold',
+                    id: 'fSubFeature',
+                    color: 'red',
+                    isOpen: false,
+                    data: [],
+                    subfeatures: apiResult.filteredSequenceAndPositions?.map(snp=>({
+                        type: 'rect',
+                        label: `${snp.position[0]} to ${snp.position[1]} aa`,
+                        id: `f${snp.position[0]}To${snp.position[1]}Aa`,
+                        color: 'red',
+                        data: [{x: 1+snp.position[0], y: snp.position[1], tooltip:snp.iep.toFixed(2)}]
+                    })) as FeaturesList
+                } as FeatureObject
+            )
+
+        }
+
         console.log(featurelist);
 
         fv.addFeatures(featurelist);
 
-        const featureList2 = apiResult.filteredSequenceAndPositions?.map(snp=>({
-            type: 'rect',
-            label: `${snp.position[0]} to ${snp.position[1]} aa`,
-            id: `f${snp.position[0]}To${snp.position[1]}Aa`,
-            color: 'red',
-            data: [{x: 1+snp.position[0], y: snp.position[1], tooltip:snp.iep.toFixed(2)}]
-        })) as FeaturesList
 
-        if(featureList2){
-            fv.addFeatures(featureList2)
-        }
 
 
     };
