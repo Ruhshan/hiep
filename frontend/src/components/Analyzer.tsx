@@ -6,7 +6,7 @@ import {
     FormLabel,
     FormHelperText,
     FormErrorMessage,
-    Button, Spacer, Center, Box
+    Button, Spacer, Center, Box, Select
 } from '@chakra-ui/react';
 import React from 'react';
 import CalculateHiepService from '../service/CalculateHiepService';
@@ -17,11 +17,13 @@ import {ProteinFeatureViewer} from './ProteinFeatureViewer';
 
 
 export function Analyzer() {
-    const [seq, setSeq] = React.useState('');
-    const [invalidInput, setInvalidInput] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [apiResult, setApiResult] = React.useState<ApiResult>({} as ApiResult);
+    const [seq, setSeq] = React.useState('')
+    const [invalidInput, setInvalidInput] = React.useState(false)
+    const [isLoading, setIsLoading] = React.useState(false)
+    const [apiResult, setApiResult] = React.useState<ApiResult>({} as ApiResult)
     const [apiErrorMessage, setApiErrorMessage] = React.useState('')
+    const scales:Array<string> =['EMBOSS','DTASelect','Solomon','Sillero','Rodwell','Patrickios','Wikipedia',
+        'IPC_peptide','IPC_protein','Bjellqvist']
 
 
     const handleInputChange = (e) => {
@@ -68,7 +70,16 @@ export function Analyzer() {
                     }
 
                 </FormControl>
-
+                <FormControl>
+                    <FormLabel>Select Scale:</FormLabel>
+                    <Select placeholder='Select Scale'>
+                        {
+                            scales.map((scale, index)=>
+                                <option value={scale} key={index} selected={scale=='IPC_protein'}>{scale}</option>
+                            )
+                        }
+                    </Select>
+                </FormControl>
                 <div style={{'marginTop':'10px'}}>
                     <Button colorScheme='teal' variant='outline' size='sm' onClick={performSearch} isDisabled={invalidInput} isLoading={isLoading}>
                         Search
