@@ -50,6 +50,20 @@ export function ProteinFeatureViewer(props: Props) {
         console.log(featurelist);
 
         fv.addFeatures(featurelist);
+
+        const featureList2 = apiResult.filteredSequenceAndPositions?.map(snp=>({
+            type: 'rect',
+            label: `${snp.position[0]} to ${snp.position[1]} aa`,
+            id: `f${snp.position[0]}To${snp.position[1]}Aa`,
+            color: 'red',
+            data: [{x: 1+snp.position[0], y: snp.position[1], tooltip:snp.iep.toFixed(2)}]
+        })) as FeaturesList
+
+        if(featureList2){
+            fv.addFeatures(featureList2)
+        }
+
+
     };
 
     useEffect(() => {
@@ -64,7 +78,7 @@ export function ProteinFeatureViewer(props: Props) {
 
     return <Center width={'100%'}>
 
-                <div style={styles.fvBox}>
+                <div style={ apiResult.querySequence? styles.fvBox: {}}>
                     <div id="fvDivInit"/>
                 </div>
 

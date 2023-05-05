@@ -1,5 +1,5 @@
 import ApiResult from '../domains/ApiResult';
-import {Box, Container, Table, TableContainer, Tbody, Td, Th, Thead, Tr} from '@chakra-ui/react';
+import {Box, Container, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr} from '@chakra-ui/react';
 
 interface Props {
     apiResult: ApiResult;
@@ -16,6 +16,7 @@ function HiepResult(props: Props) {
         }
 
     }
+
     const styles = {
         breakText: {
             maxWidth: '15em',
@@ -54,7 +55,7 @@ function HiepResult(props: Props) {
                                     <Tbody>
                                         {apiResult.sequenceAndPositions.map((sequenceAndRegion, index) => (
                                             <Tr key={index}>
-                                                <Td style={ styles.breakText }>{sequenceAndRegion.sequence}</Td>
+                                                <Td style={styles.breakText}>{sequenceAndRegion.sequence}</Td>
                                                 <Td>{formatPosition(sequenceAndRegion.position)}</Td>
                                                 <Td>{sequenceAndRegion.sequence.length}</Td>
                                             </Tr>
@@ -64,6 +65,36 @@ function HiepResult(props: Props) {
                                 </Table>
                             </TableContainer>
                         </Box>
+                        {apiResult.filteredSequenceAndPositions!==null ?
+                        <>
+                            <Text style={{marginTop: 10, marginBottom: 10}} color={'gray.600'}>Between Provided
+                                Threshold:</Text>
+                            <Box border="1px" borderRadius="5" borderColor="blackAlpha.500">
+                                <TableContainer>
+                                    <Table variant="simple">
+                                        <Thead>
+                                            <Tr>
+                                                <Th>Sequence</Th>
+                                                <Th>Region</Th>
+                                                <Th>Iep</Th>
+                                            </Tr>
+                                        </Thead>
+                                        <Tbody>
+                                            {apiResult.filteredSequenceAndPositions.map((sequenceAndRegion, index) => (
+                                                <Tr key={index}>
+                                                    <Td style={styles.breakText}>{sequenceAndRegion.sequence}</Td>
+                                                    <Td>{formatPosition(sequenceAndRegion.position)}</Td>
+                                                    <Td>{sequenceAndRegion.iep.toFixed(2)}</Td>
+                                                </Tr>
+                                            ))
+                                            }
+                                        </Tbody>
+
+                                    </Table>
+                                </TableContainer>
+                            </Box>
+                        </> : <></>
+                        }
                     </>
                 )
                 : (<p></p>)}
