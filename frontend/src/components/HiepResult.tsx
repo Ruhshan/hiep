@@ -36,11 +36,17 @@ function HiepResult(props: Props) {
                                             <Th>Hieghest IEP</Th>
                                             <Th>{apiResult.maxIep}</Th>
                                         </Tr>
+                                        <Tr>
+                                            <Th>Whole Sequence Iep</Th>
+                                            <Th>{apiResult.wholeSequenceIep}</Th>
+                                        </Tr>
                                     </Thead>
                                 </Table>
                             </TableContainer>
                         </Box>
+                        <Text style={{marginTop: 10, marginBottom: 10}} color={'gray.600'}>Sub sequences With Highest Iep:</Text>
                         <Box border="1px" borderRadius="5" borderColor="blackAlpha.500">
+
                             <TableContainer>
                                 <Table variant="simple">
                                     <Thead>

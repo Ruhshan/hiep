@@ -17,4 +17,5 @@ type IepResult struct {
 	MaxIep float64                         `json:"maxIep"`
 	SequenceAndPositions []SubSequenceData `json:"sequenceAndPositions"`
 	FilteredSequenceAndPositions []SubSequenceData `json:"filteredSequenceAndPositions"`
+	WholeSequenceIep float64 `json:"wholeSequenceIep"`
 }

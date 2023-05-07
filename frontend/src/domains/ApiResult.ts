@@ -9,5 +9,6 @@ export default interface ApiResult {
     maxIep: number
     sequenceAndPositions: Array<SequenceAndRegion>
     filteredSequenceAndPositions: Array<SequenceAndRegion> | null
+    wholeSequenceIep: number
 }
 

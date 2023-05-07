@@ -47,6 +47,7 @@ func (c concurrentSequenceHiepCalculator) CalculateIeps(seq string, minWindow in
 		MaxIep:                       maxIep,
 		SequenceAndPositions:         allSubsequenceIep[maxIep],
 		FilteredSequenceAndPositions: filteredData,
+		WholeSequenceIep: iep.PredictIsoelectricPoint(seq, scale),
 	}
 
 }
