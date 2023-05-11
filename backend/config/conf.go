@@ -3,13 +3,14 @@ package config
 import (
 	"fmt"
 	"github.com/spf13/viper"
+	"os"
 )
 
 func readProperties()  {
 	fmt.Println("Reading props")
 	viper.AddConfigPath("backend/config")
 	viper.AddConfigPath("config")
-	viper.SetConfigName("dev")
+	viper.SetConfigName(os.Getenv("APP_PROFILE"))
 	viper.SetConfigType("json")
 	err := viper.ReadInConfig()
 	if err != nil {
