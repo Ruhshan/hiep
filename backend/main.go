@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	//var calculator = hiepcalculator.GetConcurrentSequenceHiepCalculator()
-	var calculator = hiepcalculator.GetSingleThreadedHiepCalculator()
+	var calculator = hiepcalculator.GetConcurrentSequenceHiepCalculator()
+	//var calculator = hiepcalculator.GetSingleThreadedHiepCalculator()
 	var processor = instanthiep.GetInstantHiepProcessor(calculator)
 
 	var r = api.NewRoutes()
