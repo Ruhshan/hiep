@@ -1,0 +1,2 @@
+/api/*  https://hiep-api.ruhshan.xyz/api/:splat  200
+/* /index.html 200
