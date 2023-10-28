@@ -17,37 +17,6 @@ var scales = map[string]map[string]float64{
 	"Bjellqvist":  {"Cterm": 3.55, "pKAsp": 4.05, "pKGlu": 4.45, "pKCys": 9.0, "pKTyr": 10.0, "pk_his": 5.98, "Nterm": 7.5, "pKLys": 10.0, "pKArg": 12.0},
 }
 
-var aaDict = map[string]string{
-	"Asp": "D",
-	"Glu": "E",
-	"Cys": "C",
-	"Tyr": "Y",
-	"His": "H",
-	"Lys": "K",
-	"Arg": "R",
-	"Met": "M",
-	"Phe": "F",
-	"Leu": "L",
-	"Val": "V",
-	"Ala": "A",
-	"Gly": "G",
-	"Gln": "Q",
-	"Asn": "N",
-	"Ile": "I",
-	"Trp": "W",
-	"Ser": "S",
-	"Thr": "T",
-	"Sec": "U",
-	"Pro": "P",
-	"Xaa": "X",
-	"Pyl": "O",
-	"Asx": "B",
-	"Xle": "J",
-}
-
-var acidic = []string{"D", "E", "C", "Y"}
-var basic = []string{"K", "R", "H"}
-
 var pKcterminal = map[string]float64{"D": 4.55, "E": 4.75}
 var pKnterminal = map[string]float64{"A": 7.59, "M": 7.0, "S": 6.93, "P": 8.36, "T": 6.82, "V": 7.44, "E": 7.7}
 
@@ -83,13 +52,33 @@ func PredictIsoelectricPoint(seq string, scaleOpt string) float64 {
 	var E = 0.01 //epsilon means precision [pI = pH +- E]
 	var temp = 0.01
 
-	dCount := countChar(seq, 'D')
-	eCount := countChar(seq, 'E')
-	cCount := countChar(seq, 'C')
-	yCount := countChar(seq, 'Y')
-	hCount := countChar(seq, 'H')
-	kCount := countChar(seq, 'K')
-	rCount := countChar(seq, 'R')
+	var dCount = 0.0
+	var eCount = 0.0
+	var cCount = 0.0
+	var yCount = 0.0
+	var hCount = 0.0
+	var kCount = 0.0
+	var rCount = 0.0
+
+	for i := 0; i < len(seq); i++ {
+		switch seq[i] {
+		case 'D':
+			dCount++
+		case 'E':
+			eCount++
+		case 'C':
+			cCount++
+		case 'Y':
+			yCount++
+		case 'H':
+			hCount++
+		case 'K':
+			kCount++
+		case 'R':
+			rCount++
+		default:
+		}
+	}
 
 	nterm := string(seq[0])
 	cterm := string(seq[len(seq)-1])
